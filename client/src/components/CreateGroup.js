@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import './CreateGroup.css'; // Assuming you have some CSS for styling
 const CreateGroup = () => {
     const [groupName, setGroupName] = useState('');
     const [members, setMembers] = useState([]); // List of selected user IDs
@@ -77,23 +77,29 @@ const CreateGroup = () => {
 
 
     return (
-        <div>
+        <div className="create-group-container">
             <h2>Create Group</h2>
-            <input
-                type="text"
-                placeholder="Group Name"
-                value={groupName}
-                onChange={(e) => setGroupName(e.target.value)}
-            />
+
+            <div className="form-group">
+                <input
+                    type="text"
+                    placeholder="Group Name"
+                    value={groupName}
+                    onChange={(e) => setGroupName(e.target.value)}
+                    className="input-field"
+                />
+            </div>
 
             <h3>Select Members</h3>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <div>
+
+            {error && <p className="error-text">{error}</p>}
+
+            <div className="user-list">
                 {userList.length === 0 ? (
                     <p>Loading users...</p>
                 ) : (
                     userList.map((user) => (
-                        <div key={user._id}>
+                        <div key={user._id} className="user-item">
                             <label>
                                 <input
                                     type="checkbox"
@@ -107,8 +113,11 @@ const CreateGroup = () => {
                 )}
             </div>
 
-            <button onClick={handleCreateGroup}>Create</button>
+            <button onClick={handleCreateGroup} className="create-button">
+                Create
+            </button>
         </div>
+
     );
 };
 
