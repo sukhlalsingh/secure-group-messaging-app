@@ -1,0 +1,32 @@
+.create-group-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 1rem;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.error-text {
+    color: red;
+    margin-bottom: 1rem;
+}
+
+.user-list {
+    margin-bottom: 1rem;
+}
+
+.user-item {
+    margin: 0.5rem 0;
+}
+
+.create-button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

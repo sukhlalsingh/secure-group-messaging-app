@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
-
+import { Link } from 'react-router-dom';
 
 const REACT_APP_API_ROOT_URL = process.env.REACT_APP_API_ROOT_URL;
 
@@ -84,6 +84,8 @@ const Chat = () => {
         setSmartReplies([]);
     };
 
+
+
     const handleSmartReplyClick = (reply) => {
         setMessageText(reply);
     };
@@ -110,10 +112,30 @@ const Chat = () => {
         setUserEmail(email);
     }, []);
 
-    console.log('User email: ' + userEmail); // Debugging line
+    const handleDelete = async (groupId) => {
+        if (!window.confirm('Delete this group?')) return;
+        try {
+            await axios.delete(`http://localhost:5000/api/groups/${groupId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            // Refresh list & clear selection if needed
+            fetchGroups();
+            if (selectedGroup?._id === groupId) setSelectedGroup(null);
+        } catch (err) {
+            console.error('Delete failed', err.response || err);
+            alert('Failed to delete group');
+        }
+    };
+    //console.log('User email: ' + userEmail); // Debugging line
     return (
         <div style={{ padding: '30px', fontFamily: 'Arial, sans-serif' }}>
             <h2 style={{ marginBottom: '20px' }}>Welcome, {userEmail}</h2>
+
+            <div style={{ marginBottom: '15px' }}>
+                <Link to="/create-group">
+                    <button>Create New Group</button>
+                </Link>
+            </div>
 
             <div>
                 <h3>Available Groups</h3>

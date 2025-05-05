@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreateGroup = () => {
     const [groupName, setGroupName] = useState('');
     const [members, setMembers] = useState([]); // List of selected user IDs
     const [userList, setUserList] = useState([]); // List of all users
     const [error, setError] = useState(null);
-
+    const navigate = useNavigate();
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -38,6 +39,8 @@ const CreateGroup = () => {
     };
 
     const handleCreateGroup = async () => {
+
+
         if (!groupName || members.length === 0) {
             alert('Please provide a group name and select members');
             return;
@@ -49,6 +52,7 @@ const CreateGroup = () => {
             alert('You must be logged in to create a group.');
             return;
         }
+
 
         try {
             const response = await axios.post(
@@ -64,6 +68,7 @@ const CreateGroup = () => {
                 }
             );
             alert('Group created: ' + response.data.group.name);
+            navigate('/chat');
         } catch (err) {
             console.error(err);
             alert('Failed to create group');

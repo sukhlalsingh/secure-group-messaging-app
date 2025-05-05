@@ -131,6 +131,24 @@ app.post('/api/smart-replies', authenticateToken, (req, res) => {
     res.json({ replies });
 });
 
+// DELETE /api/groups/:id
+app.delete('/api/groups/:id', authenticateToken, async (req, res) => {
+    try {
+        const group = await Group.findById(req.params.id);
+        if (!group) return res.status(404).send('Group not found');
+
+        // Only owner can delete
+        if (group.owner.toString() !== req.user.userId) {
+            return res.status(403).send('Forbidden');
+        }
+
+        await group.deleteOne();
+        res.sendStatus(204);
+    } catch (err) {
+        console.error('Error deleting group:', err);
+        res.status(500).send('Server error');
+    }
+});
 
 // Socket.io events
 io.on('connection', (socket) => {
